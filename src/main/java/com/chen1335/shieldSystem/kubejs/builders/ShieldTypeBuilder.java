@@ -1,10 +1,7 @@
 package com.chen1335.shieldSystem.kubejs.builders;
 
 import com.chen1335.shieldSystem.API.shieldAPI.IShield;
-import com.chen1335.shieldSystem.shieldSystem.GroupShield;
-import com.chen1335.shieldSystem.shieldSystem.Shield;
-import com.chen1335.shieldSystem.shieldSystem.TimeLimitedUnitShield;
-import com.chen1335.shieldSystem.shieldSystem.UnitShield;
+import com.chen1335.shieldSystem.shieldSystem.*;
 import dev.latvian.mods.kubejs.registry.BuilderBase;
 import net.minecraft.resources.ResourceLocation;
 
@@ -20,7 +17,6 @@ public class ShieldTypeBuilder extends BuilderBase<Shield.ShieldType<? extends I
         return this;
     }
 
-
     public void createSimpleUnitShield() {
         factory = UnitShield::new;
     }
@@ -29,12 +25,12 @@ public class ShieldTypeBuilder extends BuilderBase<Shield.ShieldType<? extends I
         factory = () -> new GroupShield<>(UnitShield::new);
     }
 
-    public void createTimeLimitedUnitShield(int time) {
-        factory = () -> new TimeLimitedUnitShield(time);
+    public void createTimeLimitedShield(int time) {
+        factory = () -> new GroupShield<>((float amount) -> new TimeLimitedUnitShield(time, amount));
     }
 
-    public void createTimeLimitedGroupShield(int time) {
-        factory = () -> new GroupShield<>(() -> new TimeLimitedUnitShield(time));
+    public void createDecayShield(int time) {
+        factory = () -> new GroupShield<>((float amount) -> new DecayShield(time, amount));
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.chen1335.shieldSystem.API.shieldAPI.IShield;
 import com.chen1335.shieldSystem.API.shieldAPI.IUnitShield;
 import com.chen1335.shieldSystem.attachmentTypes.EntityShield;
 import com.chen1335.shieldSystem.events.RegisterShieldPriorityEvent;
+import com.chen1335.shieldSystem.kubejs.KubeCommon;
 import com.chen1335.shieldSystem.kubejs.kubeEvents.Events;
 import com.chen1335.shieldSystem.kubejs.kubeEvents.RegisterShieldPriorityEventJS;
 import com.google.common.collect.ImmutableList;
@@ -44,7 +45,7 @@ public class Shield {
         RegisterShieldPriorityEvent event = new RegisterShieldPriorityEvent(shieldsPriority);
         NeoForge.EVENT_BUS.post(event);
         if (ModList.get().isLoaded("kubejs")) {
-            Events.REGISTER_SHIELD_PRIORITY_EVENT.post(new RegisterShieldPriorityEventJS(event));
+            KubeCommon.setPriority(event);
         }
         SHIELDS_PRIORITY = ImmutableList.copyOf(shieldsPriority);
     }
@@ -57,6 +58,6 @@ public class Shield {
     }
 
     public interface UnitShieldFactory<T extends IUnitShield> {
-        T create();
+        T create(float initAmount);
     }
 }

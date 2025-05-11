@@ -18,6 +18,6 @@ public class ShieldAPI {
     }
 
     public static void reduceShieldAmount(LivingEntity livingEntity, Shield.ShieldType<?> shieldType, float amount) {
-        livingEntity.getData(AttachmentTypes.ENTITY_SHIELD).addShieldAmount(livingEntity, shieldType, amount);
+        livingEntity.getData(AttachmentTypes.ENTITY_SHIELD).reduceShieldAmount(livingEntity, shieldType, amount);
     }
 }

@@ -6,35 +6,34 @@ import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
-public class TimeLimitedUnitShield extends UnitShield {
-    private int timeLeft = 0;
+public class DecayShield extends UnitShield {
+    private float maxAmount;
+    private int time;
 
-    public TimeLimitedUnitShield(int timeLeft, float initAmount) {
-        this.timeLeft = timeLeft;
-        setAmount(initAmount);
+    public DecayShield(int time, float initAmount) {
+        super(initAmount);
+        maxAmount = initAmount;
+        this.time = time;
     }
 
     @Override
     public void tick(LivingEntity livingEntity) {
         super.tick(livingEntity);
-        if (getAmount() > 0) {
-            if (timeLeft <= 0) {
-                setAmount(0);
-            }
-            timeLeft--;
-        }
+        reduceShieldAmount(maxAmount / time);
     }
 
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = super.serializeNBT(provider);
-        tag.putInt("timeLeft", timeLeft);
+        tag.putInt("time", time);
+        tag.putFloat("maxAmount", maxAmount);
         return tag;
     }
 
     @Override
     public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag nbt) {
         super.deserializeNBT(provider, nbt);
-        timeLeft = nbt.getInt("timeLeft");
+        time = nbt.getInt("time");
+        maxAmount = nbt.getFloat("maxAmount");
     }
 }

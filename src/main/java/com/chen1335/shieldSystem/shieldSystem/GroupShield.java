@@ -65,9 +65,7 @@ public class GroupShield<T extends IUnitShield> implements IShield {
 
     @Override
     public void addShieldAmount(float amount) {
-        T unit = unitShieldFactory.create();
-        unit.setAmount(amount);
-        addUnit(unit);
+        addUnit(unitShieldFactory.create(amount));
     }
 
     @Override
@@ -85,7 +83,7 @@ public class GroupShield<T extends IUnitShield> implements IShield {
     public void deserializeNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag nbt) {
         ListTag listTag = nbt.getList("unitsData", ListTag.TAG_COMPOUND);
         for (int i = 0; i < listTag.size(); i++) {
-            T unit = unitShieldFactory.create();
+            T unit = unitShieldFactory.create(0);
             unit.deserializeNBT(provider, listTag.getCompound(i));
             units.add(unit);
         }

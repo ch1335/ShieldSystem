@@ -2,94 +2,94 @@ package com.chen1335.shieldSystem.kubejs;
 
 import com.chen1335.shieldSystem.shieldSystem.Shield;
 import com.chen1335.shieldSystem.shieldSystem.UnitShield;
-import dev.latvian.mods.rhino.NativeObject;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
-import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
-import java.util.function.Supplier;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
-public class KubeUnitShield extends UnitShield {
-    private final NativeObject kubeObject;
+public class KubeUnitShield<T> extends UnitShield {
+    private final T kubeObject;
 
-    private final TriConsumer<KubeUnitShield, NativeObject, LivingEntity> tick;
+    private final BiConsumer<KubeUnitShield<T>, LivingEntity> tick;
 
-    private final TriConsumer<KubeUnitShield, NativeObject, CompoundTag> save;
+    private final BiConsumer<KubeUnitShield<T>, CompoundTag> save;
 
-    private final TriConsumer<KubeUnitShield, NativeObject, CompoundTag> load;
+    private final BiConsumer<KubeUnitShield<T>, CompoundTag> load;
 
-    public KubeUnitShield(NativeObject kubeObject,
-                          TriConsumer<KubeUnitShield, NativeObject, LivingEntity> tickFunc,
-                          TriConsumer<KubeUnitShield, NativeObject, CompoundTag> save,
-                          TriConsumer<KubeUnitShield, NativeObject, CompoundTag> load
+    public KubeUnitShield(float initAmount, T kubeObject,
+                          BiConsumer<KubeUnitShield<T>, LivingEntity> tickFunc,
+                          BiConsumer<KubeUnitShield<T>, CompoundTag> save,
+                          BiConsumer<KubeUnitShield<T>, CompoundTag> load
     ) {
+        super(initAmount);
         this.kubeObject = kubeObject;
         this.tick = tickFunc;
         this.save = save;
         this.load = load;
     }
 
-    public NativeObject getKubeObject() {
+    public T getKubeObject() {
         return kubeObject;
     }
 
     @Override
     public void tick(LivingEntity livingEntity) {
         super.tick(livingEntity);
-        tick.accept(this, kubeObject, livingEntity);
+        tick.accept(this, livingEntity);
     }
 
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag old = super.serializeNBT(provider);
-        save.accept(this, kubeObject, old);
+        save.accept(this, old);
         return old;
     }
 
     @Override
     public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag nbt) {
         super.deserializeNBT(provider, nbt);
-        load.accept(this, kubeObject, nbt);
+        load.accept(this, nbt);
     }
 
-    public static class Builder<T extends NativeObject> {
-        private final Supplier<T> kubeObjectSupplier;
-        private TriConsumer<KubeUnitShield, NativeObject, LivingEntity> tick = (n, t, living) -> {
+    public static class Builder<T> {
+        private final Function<Float, T> kubeObjectSupplier;
+        private BiConsumer<KubeUnitShield<T>, LivingEntity> tick = (n, living) -> {
         };
-        private TriConsumer<KubeUnitShield, NativeObject, CompoundTag> save = (n, t, nbt) -> {
-        };
-
-        private TriConsumer<KubeUnitShield, NativeObject, CompoundTag> load = (n, t, nbt) -> {
+        private BiConsumer<KubeUnitShield<T>, CompoundTag> save = (n, nbt) -> {
         };
 
-        public Builder(Supplier<T> kubeObjectSupplier) {
+        private BiConsumer<KubeUnitShield<T>, CompoundTag> load = (n, nbt) -> {
+        };
+
+        public Builder(Function<Float, T> kubeObjectSupplier) {
             this.kubeObjectSupplier = kubeObjectSupplier;
         }
 
-        public static <T extends NativeObject> Builder<T> of(Supplier<T> kubeObjectSupplier) {
+        public static <T> Builder<T> of(Function<Float, T> kubeObjectSupplier) {
             return new Builder<>(kubeObjectSupplier);
         }
 
-        public Builder<T> tick(TriConsumer<KubeUnitShield, NativeObject, LivingEntity> tickFunc) {
+        public Builder<T> tick(BiConsumer<KubeUnitShield<T>, LivingEntity> tickFunc) {
             tick = tickFunc;
             return this;
         }
 
-        public Builder<T> save(TriConsumer<KubeUnitShield, NativeObject, CompoundTag> save) {
+        public Builder<T> save(BiConsumer<KubeUnitShield<T>, CompoundTag> save) {
             this.save = save;
             return this;
         }
 
-        public Builder<T> load(TriConsumer<KubeUnitShield, NativeObject, CompoundTag> load) {
+        public Builder<T> load(BiConsumer<KubeUnitShield<T>, CompoundTag> load) {
             this.load = load;
             return this;
         }
 
-        public Shield.ShieldFactory<?> build() {
-            return () -> new KubeUnitShield(kubeObjectSupplier.get(), tick, save, load);
+        public Shield.UnitShieldFactory<?> build() {
+            return (initAmount) -> new KubeUnitShield<T>(initAmount,kubeObjectSupplier.apply(initAmount), tick, save, load);
         }
     }
 }
