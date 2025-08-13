@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "package": "com.chen1335.shieldSystem.mixins.overflowingbars",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+
+  ],
+  "client": [
+    "GuiLayerHandlerMixin"
+  ],
+  "minVersion": "0.8"
+}

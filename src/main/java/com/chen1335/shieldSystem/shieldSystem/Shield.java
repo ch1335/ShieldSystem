@@ -8,8 +8,6 @@ import com.chen1335.shieldSystem.API.shieldAPI.IUnitShield;
 import com.chen1335.shieldSystem.attachmentTypes.EntityShield;
 import com.chen1335.shieldSystem.events.RegisterShieldPriorityEvent;
 import com.chen1335.shieldSystem.kubejs.KubeCommon;
-import com.chen1335.shieldSystem.kubejs.kubeEvents.Events;
-import com.chen1335.shieldSystem.kubejs.kubeEvents.RegisterShieldPriorityEventJS;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.ModList;
@@ -42,6 +40,8 @@ public class Shield {
     public static void setPriority() {
         List<ShieldType<? extends IShield>> shieldsPriority = new ArrayList<>(64);
         shieldsPriority.add(ShieldTypes.TEST.get());
+        shieldsPriority.add(ShieldTypes.COMMON_TIME_LIMITED.get());
+        shieldsPriority.add(ShieldTypes.COMMON_DECAY.get());
         RegisterShieldPriorityEvent event = new RegisterShieldPriorityEvent(shieldsPriority);
         NeoForge.EVENT_BUS.post(event);
         if (ModList.get().isLoaded("kubejs")) {

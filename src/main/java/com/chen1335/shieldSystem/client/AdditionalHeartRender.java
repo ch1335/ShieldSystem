@@ -13,7 +13,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
 public class AdditionalHeartRender {
-    private static final ResourceLocation SHIELD_HEART = ResourceLocation.fromNamespaceAndPath(ShieldSystem.MODID, "textures/hud/shield_heart.png");
+    public static final ResourceLocation SHIELD_HEART = ResourceLocation.fromNamespaceAndPath(ShieldSystem.MODID, "textures/hud/shield_heart.png");
 
     public static void render(GuiGraphics guiGraphics) {
 
@@ -66,17 +66,17 @@ public class AdditionalHeartRender {
     }
 
 
-    private static void renderHeart(GuiGraphics guiGraphics, int x, int y, boolean halfHeart) {
+    public static void renderHeart(GuiGraphics guiGraphics, int x, int y, boolean halfHeart) {
         RenderSystem.enableBlend();
         if (halfHeart) {
-            guiGraphics.blit(SHIELD_HEART, x, y, 9, 9, 0, 9, 9, 9, 9, 18);
+            guiGraphics.blit(SHIELD_HEART, x, y, 9, 9, 0, 9, 9, 9, 90, 90);
         } else {
-            guiGraphics.blit(SHIELD_HEART, x, y, 0, 0, 9, 9, 9, 18);
+            guiGraphics.blit(SHIELD_HEART, x, y, 0, 0, 9, 9, 90, 90);
         }
         RenderSystem.disableBlend();
     }
 
-    private static void renderHeartBackGround(GuiGraphics guiGraphics, int x, int y) {
+    public static void renderHeartBackGround(GuiGraphics guiGraphics, int x, int y) {
         RenderSystem.enableBlend();
         guiGraphics.blitSprite(Gui.HeartType.CONTAINER.getSprite(false, false, false), x, y, 9, 9);
         RenderSystem.disableBlend();

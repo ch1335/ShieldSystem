@@ -88,10 +88,20 @@ public class EntityShield implements INBTSerializable<CompoundTag> {
             instanceHolder.addAmount(livingEntity, amount);
         }
     }
-    public void reduceShieldAmount(LivingEntity livingEntity, Shield.ShieldType<?> shieldType, float amount) {
+
+    public void reduceTotalShieldAmount(LivingEntity livingEntity, Shield.ShieldType<?> shieldType, float amount) {
         ShieldInstanceHolder<?> instanceHolder = getShieldInstance(shieldType);
         if (instanceHolder != null) {
             instanceHolder.reduceAmount(livingEntity, amount);
+        }
+    }
+
+    public void reduceTotalShieldAmount(float amount) {
+        for (Shield.ShieldType<? extends IShield> holder : SHIELDS_PRIORITY) {
+            ShieldInstanceHolder<IShield> instanceHolder = shieldInstanceHolders.get(holder);
+            if (instanceHolder != null && instanceHolder.getTotalAmount() > 0) {
+                instanceHolder.getShield().reduceShieldAmount(amount);
+            }
         }
     }
 }

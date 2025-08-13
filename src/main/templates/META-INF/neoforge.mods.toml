@@ -11,6 +11,9 @@ description='''${mod_description}'''
 [[mixins]]
 config="${mod_id}.mixins.json"
 
+[[mixins]]
+config="shield_system_overflowingbars.mixins.json"
+
 #[[accessTransformers]]
 #file="META-INF/accesstransformer.cfg"
 

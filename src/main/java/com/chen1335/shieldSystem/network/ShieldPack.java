@@ -32,10 +32,7 @@ public record ShieldPack(Shield.ShieldType<? extends IShield> shieldType, float 
     }
 
     public void handler(IPayloadContext context) {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) {
-            return;
-        }
+        Player player = context.player();
         ShieldInstanceHolder<?> instanceHolder = player.getData(AttachmentTypes.ENTITY_SHIELD).getShieldInstance(shieldType);
         if (instanceHolder != null) {
             instanceHolder.setRenderAmount(amount);

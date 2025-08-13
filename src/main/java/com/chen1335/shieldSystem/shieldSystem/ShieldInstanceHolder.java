@@ -60,7 +60,7 @@ public class ShieldInstanceHolder<T extends IShield> {
     public void addAmount(LivingEntity livingEntity, float amount) {
         AddShieldAmountEvent event = new AddShieldAmountEvent(livingEntity, type, this, amount);
         NeoForge.EVENT_BUS.post(event);
-        getShield().addShieldAmount(amount);
+        getShield().addShieldAmount(event.getAmount());
     }
 
     public void reduceAmount(LivingEntity livingEntity, float amount) {

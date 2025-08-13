@@ -39,6 +39,7 @@ public class KubeUnitShield<T> extends UnitShield {
     @Override
     public void tick(LivingEntity livingEntity) {
         super.tick(livingEntity);
+        
         tick.accept(this, livingEntity);
     }
 
