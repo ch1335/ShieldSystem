@@ -195,5 +195,9 @@ idea {
     }
 }
 
+java {
+    withSourcesJar()
+}
+
 compileJava.options.compilerArgs.add '-parameters'
 compileTestJava.options.compilerArgs.add '-parameters'

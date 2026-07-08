@@ -1,4 +1,4 @@
-package com.chen1335.shieldSystem.mixins.minecraft;
+package com.chen1335.shieldSystem.mixins.shield_system;
 
 
 import com.chen1335.shieldSystem.client.AdditionalHeartRender;

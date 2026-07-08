@@ -1,11 +1,11 @@
 {
   "required": true,
-  "package": "com.chen1335.shieldSystem.mixins.minecraft",
+  "plugin": "com.chen1335.shieldSystem.mixins.MainMixinPlugin",
+  "package": "com.chen1335.shieldSystem.mixins",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [
-  ],
+  "mixins": ["classicbar.ClassicBarsConfigMixin", "classicbar.ModOverlaysMixin", "overflowingbars.GuiLayerHandlerMixin"],
   "client": [
-    "GuiMixin"
+    "shield_system.GuiMixin"
   ],
   "minVersion": "0.8"
 }
