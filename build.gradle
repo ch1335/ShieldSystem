@@ -18,6 +18,28 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        // forRepositories(fg.repository) // Uncomment when using ForgeGradle
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 base {
@@ -113,6 +135,11 @@ configurations {
 
 dependencies {
     implementation fileTree("libs")
+    implementation "maven.modrinth:FhdcxNf6:2q0mDWwV"
+    implementation "curse.maven:kubejs-238086:8083208"
+    implementation "curse.maven:rhino-416294:8218748"
+    implementation "curse.maven:overflowing-bars-852662:5770623"
+    implementation "curse.maven:puzzles-lib-495476:8251525"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

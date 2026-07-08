@@ -19,7 +19,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 
 public class EventHandler {
-    @EventBusSubscriber(modid = ShieldSystem.MODID, bus = EventBusSubscriber.Bus.GAME)
+    @EventBusSubscriber(modid = ShieldSystem.MODID)
     public static class Game {
         @SubscribeEvent
         public static void EntityTickEvent$Post(EntityTickEvent.Post event) {
@@ -48,7 +48,7 @@ public class EventHandler {
         }
     }
 
-    @EventBusSubscriber(modid = ShieldSystem.MODID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = ShieldSystem.MODID)
     public static class Mod {
         @SubscribeEvent
         public static void RegisterPayloadHandlersEvent(RegisterPayloadHandlersEvent event) {
